@@ -1,0 +1,40 @@
+{
+  "name": "core-stack",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "description": "The base of a core object. Create an object implementing a plugin system, a stack handler and an event emitter + some useful methods for a core object.",
+  "keywords": [
+    "emitter",
+    "plugin",
+    "stack",
+    "event",
+    "core",
+    "workflow",
+    "container",
+    "object"
+  ],
+  "homepage": "https://github.com/Nicolab/core-stack",
+  "author": {
+    "name": "Nicolas Tallefourtane",
+    "url": "http://nicolab.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Nicolab/core-stack.git"
+  },
+  "bugs": "https://github.com/Nicolab/core-stack/issues",
+  "dependencies": {
+    "evemit": "1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "build": "./build.sh"
+  }
+}
