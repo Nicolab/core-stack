@@ -1,6 +1,6 @@
 {
   "name": "core-stack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "./dist/index.js",
   "description": "The base of a core object. Create an object implementing a plugin system, a stack handler and an event emitter + some useful methods for a core object.",
   "keywords": [
