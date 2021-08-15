@@ -2,10 +2,10 @@
 
 Create an object implementing:
 
- * An event emitter (Evemit).
- * A plugin system that handles the asynchronous loading.
- * A stack handler.
- * And some useful methods for handling a core and config object.
+* An event emitter ([Evemit](https://github.com/Nicolab/evemit), only 1 kb).
+* A plugin system that handles the asynchronous loading.
+* A stack handler.
+* And some useful methods for handling a core and config object.
 
 core-stack was implemented with performance and lightness in mind.
 
@@ -28,14 +28,17 @@ yarn add core-stack
 ### Create a core
 
 ```js
-let CoreStack = require('core-stack');
-let core = new CoreStack();
+import CoreStack from 'core-stack';
+
+// or const CoreStack = require('core-stack');
+const core = new CoreStack();
 
 // adds what do you need in the `core`...
-// core.foo = {};
-// core.bar = 'bar';
+core.foo = {};
+core.bar = 'bar';
 
-module.exports = core;
+export default core;
+// or module.exports = core;
 ```
 
 ### Plugins
@@ -50,7 +53,7 @@ module.exports = core;
  * @param  {*}           [args]
  * @param  {function}    done
  */
-module.exports = function myPlugin(core, args, done) {
+export default function myPlugin(core, args, done) {
   // add some feature to the core
   // ...
 
@@ -73,13 +76,16 @@ core.use(plugin, pluginArgs, function(done /*, doneArgs */) {
 or a reusable plugin:
 
 ```js
-core.use(require('./plug/myPlugin'));
+import myPlugin from './plug/myPlugin';
+
+core.use(myPlugin);
+// or core.use(require('./plug/myPlugin'));
 ```
 
 Example, create a simple _logger_ plugin (reusable):
 
 ```js
-module.exports = function loggerPlugin(core, args, done) {
+export default function loggerPlugin(core, args, done) {
   core.log = function() {
     console.log(...arguments);
   };
@@ -99,8 +105,10 @@ module.exports = function loggerPlugin(core, args, done) {
 Load and use the _logger_ plugin:
 
 ```js
+import logger from './plug/logger';
+
 // load the logger plugin
-core.use(require('./plug/logger'));
+core.use(logger);
 
 // use the logger plugin when the core was booted
 core.boot(function() {
@@ -113,14 +121,21 @@ core.boot(function() {
 ### Full example
 
 ```js
-let CoreStack = require('core-stack');
-let app = new CoreStack();
+import CoreStack from 'core-stack';
+
+// Plugins
+import logger from './plug/logger/';
+import config from './plug/config/';
+import router from './plug/router/';
+import react from './plug/react/'; // or another lib / framework to initialize
+
+const app = new CoreStack();
 
 app
-  .use(require('./plug/logger/'))
-  .use(require('./plug/config/'))
-  .use(require('./plug/router/'))
-  .use(require('./plug/react/'))
+  .use(logger)
+  .use(config)
+  .use(router)
+  .use(react)
   .boot(function() {
     app.log('all plugins are loaded');
 
@@ -129,7 +144,7 @@ app
     app.emit('app.booted');
 
     // init the routes and a router (e.g: routux package)
-    require('./routes/');
+    router.init();
   })
 ;
 ```
